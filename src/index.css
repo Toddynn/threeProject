@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-	background-image: url('assets/fundinho.png');
+	/* background-image: url('assets/fundinho.png');
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: cover; */
 }

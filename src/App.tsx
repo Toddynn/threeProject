@@ -1,44 +1,119 @@
-import { CameraControls, PerformanceMonitor, PerspectiveCamera, SoftShadows } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useControls } from 'leva';
-import { Perf } from 'r3f-perf';
-import { Suspense, useState } from 'react';
-import Scene from './Scene';
+import { CameraControls, Environment, MeshPortalMaterial, PortalMaterialType, RoundedBox, useCursor, useTexture } from '@react-three/drei';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { easing } from 'maath';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import { BackSide, DoubleSide, Scene, Vector3 } from 'three';
+import Mesh from './Mesh';
 
 export default function App() {
-	const [bad, set] = useState(false);
-	const { debug, enabled, samples, ...config } = useControls({
-		debug: true,
-		enabled: true,
-		size: { value: 35, min: 0, max: 100, step: 0.1 },
-		focus: { value: 0.5, min: 0, max: 2, step: 0.1 },
-		samples: { value: 16, min: 1, max: 40, step: 1 },
+	return (
+		<div className="flex h-screen items-center justify-center">
+			<Canvas shadows camera={{ position: [0, 0, 10], fov: 30 }}>
+				<Experience />
+			</Canvas>
+		</div>
+	);
+}
+
+export function Experience() {
+	const [active, setActive] = useState<string | undefined>(undefined);
+	const [hovered, setHovered] = useState<string | undefined>(undefined);
+	useCursor(!!hovered);
+
+	const scene = useThree((state) => state.scene);
+	const cameraControlsRef = useRef<CameraControls>(null);
+
+	const targetPosition = new Vector3();
+	useEffect(() => {
+		if (active) {
+			scene.getObjectByName(active)?.getWorldPosition(targetPosition);
+			cameraControlsRef.current?.setLookAt(0, 0, 5, targetPosition.x, targetPosition.y, targetPosition.z, true);
+		} else {
+			cameraControlsRef.current?.setLookAt(0, 0, 10, 0, 0, 0, true);
+		}
+	}, [active]);
+
+	return (
+		<>
+			<ambientLight intensity={1} />
+			<Environment preset="sunset" />
+			<CameraControls ref={cameraControlsRef} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 6} />
+
+			<Portal
+				name={'alien'}
+				active={active}
+				setActive={setActive}
+				texture={'textures/interior.jpg'}
+				scene={scene}
+				rotation={[0, 0, 0]}
+				position={[0, 0, -0.5]}
+			>
+				<Mesh name="alien" path="models/alien/Alien.gltf" presets="city" scale={0.5} position={[0, -1, 0]} />
+			</Portal>
+			<Portal
+				name={'dragon'}
+				active={active}
+				setActive={setActive}
+				texture={'textures/interior.jpg'}
+				scene={scene}
+				rotation={[0, 22.5, 0]}
+				position={[-2.5, 0, 0]}
+			>
+				<Mesh name="dragon" path="models/alien/Alien.gltf" presets="city" scale={0.5} position={[0, -1, 0]} />
+			</Portal>
+			<Portal
+				name={'fish'}
+				active={active}
+				setActive={setActive}
+				texture={'textures/interior.jpg'}
+				scene={scene}
+				position={[2.5, 0, 0]}
+				rotation={[0, -22.5, 0]}
+			>
+				<Mesh name="fish" path="models/alien/Alien.gltf" presets="city" scale={0.5} position={[0, -1, 0]} />
+			</Portal>
+		</>
+	);
+}
+
+interface PortalProps {
+	texture: string;
+	active: string | undefined;
+	setActive: React.Dispatch<React.SetStateAction<string | undefined>>;
+	name: string;
+	scene: Scene;
+	children: ReactNode;
+	position?: [number, number, number];
+	rotation?: [number, number, number];
+}
+export function Portal({ texture, children, active, setActive, name, position, rotation }: PortalProps) {
+	const map = useTexture(texture);
+	const portalRef = useRef<PortalMaterialType>(null);
+
+	useFrame((_state, delta) => {
+		if (!portalRef.current) return;
+		const open = active === name;
+
+		easing.damp(portalRef.current, 'blend', open ? 1 : 0, 0.5, delta);
 	});
 
 	return (
-		<div className="flex h-screen items-center justify-center">
-			<div className="flex h-[650px] w-[70%] items-center overflow-hidden rounded-2xl bg-[#796d59]/20  outline outline-1 outline-white/40 backdrop-blur-md">
-				<div className="flex h-full flex-1 bg-[#cdcac5]">
-					<motion.div className="h-full w-full bg-transparent">
-						<Canvas shadows camera={{ position: [5, 2, 10], fov: 100, castShadow: true }}>
-							<PerspectiveCamera name="camera" fov={40} near={10} far={1000} position={[10, 0, 50]} />
-							{debug && <Perf position="top-left" />}
-							<PerformanceMonitor onDecline={() => set(true)} />
-							{enabled && <SoftShadows {...config} samples={bad ? Math.min(6, samples) : samples} />}
-							<CameraControls makeDefault {...config} />
-							<directionalLight castShadow position={[2.5, 8, 5]} shadow-mapSize={[1024, 1024]}>
-								<orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
-							</directionalLight>
-							<Suspense fallback={null}>
-								<Scene id="tv" path="models/tv/scene.gltf" presets="city" scale={0.1} position={[0, 0, 0]} />
-							</Suspense>
-						</Canvas>
-					</motion.div>
-				</div>
-				<div className="flex h-full flex-1">dados</div>
-			</div>
-			<AnimatePresence initial={false} onExitComplete={() => null} mode="wait"></AnimatePresence>
-		</div>
+		<RoundedBox
+			name={name}
+			position={position}
+			rotation={rotation}
+			args={[2, 3, 0.1]}
+			onDoubleClick={() => setActive(active === name ? undefined : name)}
+		>
+			<MeshPortalMaterial ref={portalRef} side={DoubleSide}>
+				<ambientLight intensity={1} />
+				<Environment preset="sunset" />
+				{children}
+				<mesh>
+					<sphereGeometry args={[5, 64, 64]} />
+					<meshStandardMaterial map={map} side={BackSide} />
+				</mesh>
+			</MeshPortalMaterial>
+		</RoundedBox>
 	);
 }
