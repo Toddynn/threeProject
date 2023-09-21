@@ -2,7 +2,7 @@ import { CameraControls, Environment } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import { Vector3 } from 'three';
-import ObjectPerson, { Objects } from '../../ObjectPerson';
+import ObjectPerson, { Objects } from '../../ObjectCharacter';
 import { Portal } from '../../Portal';
 
 export function ExperienceCharacters() {
