@@ -1,8 +1,8 @@
 import { CameraControls, Environment } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
-import { Vector3 } from 'three';
-import ObjectPerson, { Objects } from '../../ObjectCharacter';
+import { Vector3 } from 'three/src/math/Vector3.js';
+import Character, { Characters } from '../../Objects/Character';
 import { Portal } from '../../Portal';
 
 export function ExperienceCharacters() {
@@ -22,7 +22,7 @@ export function ExperienceCharacters() {
 		}
 	}, [active]);
 
-	const [doubleClicked, setDoubleClicked] = useState<Objects>(undefined);
+	const [doubleClicked, setDoubleClicked] = useState<Characters>(undefined);
 
 	return (
 		<>
@@ -36,11 +36,11 @@ export function ExperienceCharacters() {
 					active={active}
 					setActive={setActive}
 					texture={'textures/interior.jpg'}
-					scene={scene}
+					preset="night"
 					rotation={[0, 22.5, 0]}
 					position={[-2.5, 0, 0]}
 				>
-					<ObjectPerson
+					<Character
 						name="ninja"
 						path="models/ninja/Ninja.gltf"
 						presets="city"
@@ -56,11 +56,11 @@ export function ExperienceCharacters() {
 					active={active}
 					setActive={setActive}
 					texture={'textures/interior.jpg'}
-					scene={scene}
+					preset="night"
 					rotation={[0, 0, 0]}
 					position={[0, 0, -0.5]}
 				>
-					<ObjectPerson
+					<Character
 						name="demon"
 						path="models/demon/Demon.gltf"
 						presets="city"
@@ -75,11 +75,11 @@ export function ExperienceCharacters() {
 					active={active}
 					setActive={setActive}
 					texture={'textures/interior.jpg'}
-					scene={scene}
+					preset="night"
 					position={[2.5, 0, 0]}
 					rotation={[0, -22.5, 0]}
 				>
-					<ObjectPerson
+					<Character
 						name="woman"
 						path="models/woman/woman.gltf"
 						presets="city"

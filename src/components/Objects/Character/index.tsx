@@ -3,21 +3,22 @@ import { PresetsType } from '@react-three/drei/helpers/environment-assets';
 import { Object3DNode } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 import { Group } from 'three';
-import { useAnimation } from '../../hooks/useAnimation';
+import { useAnimation } from '../../../hooks/useAnimation';
 
-export type Objects = 'alien' | 'demon' | 'ninja' | 'woman' | undefined;
+export type Characters = 'alien' | 'demon' | 'ninja' | 'woman' | undefined;
 
-export interface ObjectCharacterProps extends Object3DNode<Group, typeof Group> {
+export interface CharacterProps extends Object3DNode<Group, typeof Group> {
 	presets?: PresetsType;
 	scale?: number;
 	position?: [number, number, number];
 	path: string;
-	doubleClicked: Objects;
+	doubleClicked?: Characters;
 }
 
-export default function ObjectCharacter({ presets, scale, position, path, doubleClicked, ...rest }: ObjectCharacterProps) {
+export default function Character({ presets, scale, position, path, doubleClicked, ...rest }: CharacterProps) {
 	const groupRef = useRef<Group>(null);
 
+	useGLTF.preload(path);
 	const { scene, animations } = useGLTF(path);
 
 	const { setAnimations, animationIndex } = useAnimation();
@@ -36,8 +37,8 @@ export default function ObjectCharacter({ presets, scale, position, path, double
 	}, [animationIndex]);
 
 	return (
-		<group {...rest} ref={groupRef} dispose={null} castShadow>
-			<mesh scale={scale} position={position}>
+		<group {...rest} ref={groupRef} dispose={null}>
+			<mesh scale={scale} position={position} castShadow>
 				<primitive object={scene} />;
 				<Environment preset={presets} />
 			</mesh>
