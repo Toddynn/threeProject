@@ -8,9 +8,11 @@ import { Portal } from '../../Portal';
 interface ExperienceTableProps {
 	active: boolean;
 	setActive: Dispatch<SetStateAction<boolean>>;
+	portalArgs: [number, number, number];
+	name: string;
 }
 
-export function ExperienceTable({ active, setActive }: ExperienceTableProps) {
+export function ExperienceTable({ active, setActive, portalArgs, name }: ExperienceTableProps) {
 	const scene = useThree((state) => state.scene);
 	const cameraControlsRef = useRef<CameraControls>(null);
 
@@ -19,16 +21,24 @@ export function ExperienceTable({ active, setActive }: ExperienceTableProps) {
 	useEffect(() => {
 		if (active) {
 			scene.getObjectByName('table')?.getWorldPosition(targetPosition);
-			cameraControlsRef.current?.setLookAt(0, 0, 5, targetPosition.x, targetPosition.y, targetPosition.z, true);
+			cameraControlsRef.current?.setLookAt(1, 2, 3, targetPosition.x, targetPosition.y, targetPosition.z, true);
 		} else {
-			cameraControlsRef.current?.setLookAt(0, 0, 10, 0, 0, 0, true);
+			cameraControlsRef.current?.setLookAt(1, 2, 7, 0, 0, 0, true);
 		}
 	}, [active]);
 
 	return (
 		<>
-			<Portal name={'table'} active={active} setActive={setActive} texture={'textures/interior.jpg'} rotation={[0, 0, 0]} position={[0, 0, -0.5]}>
-				<Table path="models/table/Table.gltf" scale={0.7} preset="forest" />
+			<Portal
+				portalArgs={portalArgs}
+				name={name}
+				active={active}
+				setActive={setActive}
+				texture={'textures/interior.jpg'}
+				rotation={[0, 0, 0]}
+				position={[0, 0, -0.5]}
+			>
+				<Table path="models/table/Table.gltf" scale={0.5} preset="forest" />
 			</Portal>
 			<CameraControls ref={cameraControlsRef} makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2} maxDistance={7} />
 		</>
