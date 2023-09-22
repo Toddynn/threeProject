@@ -92,7 +92,7 @@ export function ControlTable({ path, hidden }: ControlTableProps) {
 	};
 
 	return (
-		<div className={`${hidden ? 'hidden' : 'visible'} scrollControl fixed right-0 top-0 z-50 m-4 flex max-h-[50%] flex-col gap-4 overflow-y-auto`}>
+		<div className={`${hidden ? 'hidden' : 'visible'} scrollControl absolute right-0 top-0 z-50 m-4 flex max-h-[50%] flex-col gap-4 overflow-y-auto`}>
 			<TableWidthControl setTableWidth={setTableWidth} tableWidth={tableWidth} />
 			<div className="flex items-start gap-2">
 				<div className="flex  flex-col gap-4">
