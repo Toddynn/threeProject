@@ -2,7 +2,7 @@ import { MeshPortalMaterial, PortalMaterialType, RoundedBox, useTexture } from '
 import { useFrame } from '@react-three/fiber';
 import { easing } from 'maath';
 import { ReactNode, useRef } from 'react';
-import { BackSide, DoubleSide } from 'three';
+import { DoubleSide } from 'three';
 
 interface PortalProps {
 	texture: string;
@@ -12,8 +12,9 @@ interface PortalProps {
 	children: ReactNode;
 	position?: [number, number, number];
 	rotation?: [number, number, number];
+	portalArgs: [number, number, number];
 }
-export function Portal({ texture, children, active, setActive, name, position, rotation }: PortalProps) {
+export function Portal({ texture, children, active, setActive, name, position, rotation, portalArgs }: PortalProps) {
 	const map = useTexture(texture);
 	const portalRef = useRef<PortalMaterialType>(null);
 
@@ -24,14 +25,14 @@ export function Portal({ texture, children, active, setActive, name, position, r
 	});
 
 	return (
-		<group castShadow receiveShadow onDoubleClick={() => setActive(!active)}>
-			<RoundedBox name={name} position={position} rotation={rotation} args={[5, 4, 0.1]}>
+		<group onDoubleClick={() => setActive(!active)}>
+			<RoundedBox name={name} position={position} rotation={rotation} args={portalArgs}>
 				<MeshPortalMaterial ref={portalRef} side={DoubleSide}>
 					{children}
-					<mesh>
+					{/* <mesh>
 						<sphereGeometry args={[5, 254, 254]} />
 						<meshStandardMaterial map={map} side={BackSide} />
-					</mesh>
+					</mesh> */}
 				</MeshPortalMaterial>
 			</RoundedBox>
 		</group>
