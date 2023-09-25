@@ -1,20 +1,21 @@
-import { MeshPortalMaterial, PortalMaterialType, RoundedBox, useTexture } from '@react-three/drei';
+import { Environment, MeshPortalMaterial, PortalMaterialType, RoundedBox, useTexture } from '@react-three/drei';
+import { PresetsType } from '@react-three/drei/helpers/environment-assets';
 import { useFrame } from '@react-three/fiber';
 import { easing } from 'maath';
 import { ReactNode, useRef } from 'react';
-import { DoubleSide } from 'three';
+import { BackSide, DoubleSide } from 'three';
 
 interface PortalProps {
 	texture: string;
 	active: boolean;
-	setActive: React.Dispatch<React.SetStateAction<boolean>>;
 	name: string;
 	children: ReactNode;
 	position?: [number, number, number];
 	rotation?: [number, number, number];
 	portalArgs: [number, number, number];
+	preset: PresetsType;
 }
-export function Portal({ texture, children, active, setActive, name, position, rotation, portalArgs }: PortalProps) {
+export function Portal({ texture, children, active, name, position, rotation, portalArgs, preset }: PortalProps) {
 	const map = useTexture(texture);
 	const portalRef = useRef<PortalMaterialType>(null);
 
@@ -25,14 +26,16 @@ export function Portal({ texture, children, active, setActive, name, position, r
 	});
 
 	return (
-		<group onDoubleClick={() => setActive(!active)}>
+		<group>
 			<RoundedBox name={name} position={position} rotation={rotation} args={portalArgs}>
 				<MeshPortalMaterial ref={portalRef} side={DoubleSide}>
 					{children}
-					{/* <mesh>
+					<mesh>
 						<sphereGeometry args={[5, 254, 254]} />
 						<meshStandardMaterial map={map} side={BackSide} />
-					</mesh> */}
+					</mesh>
+					<ambientLight intensity={0.2} />
+					<Environment preset={preset} />
 				</MeshPortalMaterial>
 			</RoundedBox>
 		</group>
