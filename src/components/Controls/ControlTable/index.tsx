@@ -9,7 +9,7 @@ interface TableWidthControlProps {
 }
 function TableWidthControl({ tableWidth, setTableWidth }: TableWidthControlProps) {
 	return (
-		<div className="rounded-lg bg-white/30 p-3 backdrop-blur-sm">
+		<div className="rounded-lg bg-gray-500/30 p-3 backdrop-blur-sm">
 			<FormControl>
 				<FormLabel>Table width</FormLabel>
 				<Slider
@@ -35,7 +35,7 @@ interface RadioGroupControl {
 }
 function RadioGroupControl({ label, value, onChange, options }: RadioGroupControl) {
 	return (
-		<div className="rounded-lg bg-white/30 p-3 backdrop-blur-sm">
+		<div className="rounded-lg bg-gray-500/30 p-3 backdrop-blur-sm">
 			<FormControl>
 				<FormLabel>{label}</FormLabel>
 				<RadioGroup value={value} onChange={onChange}>
