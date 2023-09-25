@@ -23,6 +23,7 @@
 		--border: 240 3.7% 15.9%;
 		--input: 240 3.7% 15.9%;
 		--ring: 142.4 71.8% 29.2%;
+		--radius: 0.75rem;
 	}
 }
 
@@ -33,4 +34,21 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+.scrollStyled::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+	border-radius: 20px;
+}
+.scrollStyled::-webkit-scrollbar-corner {
+	display: none;
+}
+.scrollStyled::-webkit-scrollbar-track {
+	background: #222;
+	border-radius: 20px;
+}
+.scrollStyled::-webkit-scrollbar-thumb {
+	background-color: #585757;
+	border-radius: 20px;
 }
