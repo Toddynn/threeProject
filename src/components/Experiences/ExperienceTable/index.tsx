@@ -1,18 +1,20 @@
 import { CameraControls } from '@react-three/drei';
+import { PresetsType } from '@react-three/drei/helpers/environment-assets';
 import { useThree } from '@react-three/fiber';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Vector3 } from 'three/src/math/Vector3.js';
 import Table from '../../Objects/Table';
 import { Portal } from '../../Portal';
 
 interface ExperienceTableProps {
 	active: boolean;
-	setActive: Dispatch<SetStateAction<boolean>>;
 	portalArgs: [number, number, number];
 	name: string;
+	preset: PresetsType;
+	setActive: any;
 }
 
-export function ExperienceTable({ active, setActive, portalArgs, name }: ExperienceTableProps) {
+export function ExperienceTable({ active, portalArgs, name, preset }: ExperienceTableProps) {
 	const scene = useThree((state) => state.scene);
 	const cameraControlsRef = useRef<CameraControls>(null);
 
@@ -20,7 +22,7 @@ export function ExperienceTable({ active, setActive, portalArgs, name }: Experie
 
 	useEffect(() => {
 		if (active) {
-			scene.getObjectByName('table')?.getWorldPosition(targetPosition);
+			scene.getObjectByName(name)?.getWorldPosition(targetPosition);
 			cameraControlsRef.current?.setLookAt(1, 2, 3, targetPosition.x, targetPosition.y, targetPosition.z, true);
 		} else {
 			cameraControlsRef.current?.setLookAt(1, 2, 7, 0, 0, 0, true);
@@ -33,14 +35,14 @@ export function ExperienceTable({ active, setActive, portalArgs, name }: Experie
 				portalArgs={portalArgs}
 				name={name}
 				active={active}
-				setActive={setActive}
-				texture={'textures/interior.jpg'}
+				texture={'textures/interior2.jpg'}
 				rotation={[0, 0, 0]}
 				position={[0, 0, -0.5]}
+				preset={preset}
 			>
-				<Table path="models/table/Table.gltf" scale={0.5} preset="forest" />
+				<Table path="models/table/Table.gltf" scale={0.5} preset={preset} />
 			</Portal>
-			<CameraControls ref={cameraControlsRef} makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2} maxDistance={7} />
+			<CameraControls enabled={active} ref={cameraControlsRef} makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2} maxDistance={5} />
 		</>
 	);
 }
