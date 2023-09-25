@@ -17,7 +17,6 @@ const ANIM_SPEED = 12;
 export default function Table({ preset = 'night', scale, position, path, ...rest }: TableProps) {
 	const groupRef = useRef<Group>(null);
 
-	useGLTF.preload(path);
 	const { nodes } = useGLTF(path);
 
 	const { legs, legsColor, plateColor, tableWidth, legsMaterial, setLegsMaterial, plateMaterial, setPlateMaterial } = useConfigurator();
@@ -91,3 +90,5 @@ export default function Table({ preset = 'night', scale, position, path, ...rest
 		</group>
 	);
 }
+
+useGLTF.preload('/models/table/Table.gltf');
