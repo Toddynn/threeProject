@@ -1,13 +1,11 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export interface ModalActionProps extends HTMLAttributes<HTMLDivElement> {
-	children: ReactNode;
-}
+export interface ModalActionProps extends HTMLAttributes<HTMLDivElement> {}
 
 export default function ModalAction({ children, className, ...rest }: ModalActionProps) {
 	return (
-		<div className={twMerge('flex items-center justify-center', className)} {...rest}>
+		<div className={twMerge('flex cursor-pointer items-center justify-center', className)} {...rest}>
 			{children}
 		</div>
 	);
