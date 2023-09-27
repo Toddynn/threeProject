@@ -1,9 +1,7 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export interface ModalContentProps extends HTMLAttributes<HTMLDivElement> {
-	children: ReactNode;
-}
+export interface ModalContentProps extends HTMLAttributes<HTMLDivElement> {}
 
 export default function ModalContent({ children, className, ...rest }: ModalContentProps) {
 	return (
