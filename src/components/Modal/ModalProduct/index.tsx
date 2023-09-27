@@ -1,16 +1,18 @@
-import { EmblaOptionsType } from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+import { EmblaOptionsType, EmblaPluginType } from 'embla-carousel-react';
 import { AnimatePresence } from 'framer-motion';
 import { Dispatch, SetStateAction } from 'react';
 import { BiChevronLeft } from 'react-icons/bi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import { Modal } from '..';
+import { Product } from '../../../App';
 import { DropIn } from '../../../constants/animation';
-import { Carousel } from '../../Carousel';
+import Carousel from '../../Carousel';
 import { Button } from '../../ShadCN/ui/button';
 import ModalPreviewGltf from '../ModalPreviewGLTF';
 
 export interface ModalProductProps {
-	content: any;
+	content: Product | null;
 	showDetails?: boolean;
 	active: boolean;
 	setActive: Dispatch<SetStateAction<boolean>>;
@@ -18,21 +20,25 @@ export interface ModalProductProps {
 }
 
 export default function ModalProduct({ content, active, setActive, setShowDetails }: ModalProductProps) {
-	const OPTIONS: EmblaOptionsType = {
+	const CarouselOptions: EmblaOptionsType = {
 		slidesToScroll: 'auto',
 		containScroll: 'trimSnaps',
+		axis: 'x',
+		loop: false,
 	};
 
-	const renderPreviewProduct = (preview: string | string[]) => {
-		if (typeof preview === 'string') {
-			return <img src={preview} alt="asd" className="h-full w-full object-scale-down" />;
+	const CarouselPlugins: EmblaPluginType = Autoplay({});
+
+	const renderPreviewProduct = (preview: string[]) => {
+		if (preview.length <= 1) {
+			return <img src={preview[0]} alt="asd" className="h-full w-full object-scale-down" />;
 		} else {
 			return (
-				<Carousel.Root options={OPTIONS}>
+				<Carousel options={CarouselOptions} plugins={CarouselPlugins} showActions className="">
 					{preview.map((image: any, index: number) => {
-						return <img key={index} src={image} alt="asd" width={100} className="pointer-events-none object-scale-down object-center" />;
+						return <img key={index} src={image} alt="asd" width={100} className="pointer-events-none " />;
 					})}
-				</Carousel.Root>
+				</Carousel>
 			);
 		}
 	};
@@ -46,9 +52,9 @@ export default function ModalProduct({ content, active, setActive, setShowDetail
 			exit="exit"
 			className=" flex h-[800px] w-[90%] items-center overflow-hidden rounded-md bg-gray-600/40 outline outline-2 outline-white/30 backdrop-blur-md"
 		>
-			<Modal.Content className={`${active ? 'hidden' : 'flex'} scrollStyled h-full w-full flex-col  lg:flex-row`}>
+			<Modal.Content className={`${active ? 'hidden' : 'flex'} scrollStyled  flex-col  lg:flex-row`}>
 				<Modal.Content className={`flex flex-1 bg-[#565555]`}>
-					{renderPreviewProduct(content.images)}
+					{content && renderPreviewProduct(content.images)}
 					<Modal.Action className="absolute bottom-5 left-5 justify-start">
 						<Button onClick={() => setActive(!active)} className="w-auto items-center gap-3">
 							<HiOutlineSparkles size={18} />
@@ -57,16 +63,14 @@ export default function ModalProduct({ content, active, setActive, setShowDetail
 					</Modal.Action>
 				</Modal.Content>
 
-				<div className={` flex h-full w-full flex-1 flex-col items-center justify-start p-4`}>
-					<Modal.Actions className=" flex h-auto w-full cursor-pointer justify-start">
-						<Modal.Action className="rounded-full bg-muted/70 p-1 hover:bg-muted/60" onClick={() => setShowDetails(false)}>
-							<Modal.Icon icon={BiChevronLeft} size={32}></Modal.Icon>
-						</Modal.Action>
-					</Modal.Actions>
-				</div>
+				<Modal.Content className={`relative flex-1 flex-col items-center justify-start p-4`}>
+					<Modal.Action className=" absolute left-5 rounded-full bg-muted/70 p-1 hover:bg-muted/60" onClick={() => setShowDetails(false)}>
+						<Modal.Icon icon={BiChevronLeft} size={32}></Modal.Icon>
+					</Modal.Action>
+				</Modal.Content>
 			</Modal.Content>
 			<AnimatePresence mode="wait" initial={false} onExitComplete={() => null}>
-				{active && <ModalPreviewGltf path={content.path} active={active} setActive={setActive} />}
+				{content && active && <ModalPreviewGltf path={content.path} active={active} setActive={setActive} />}
 			</AnimatePresence>
 		</Modal.Root>
 	);

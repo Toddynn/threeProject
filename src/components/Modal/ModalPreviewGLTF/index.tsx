@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, Suspense } from 'react';
 import { BiChevronLeft } from 'react-icons/bi';
 import { Modal } from '..';
 import { SlideLeft } from '../../../constants/animation';
+import { ControlAnimations } from '../../Controls/ControlAnimations';
 import { ExperienceDoor } from '../../Experiences/ExperienceDoor';
 
 export interface ModalPreviewGltfProps {
@@ -35,6 +36,7 @@ export default function ModalPreviewGltf({ active, setActive }: ModalPreviewGltf
 							<ExperienceDoor name="door" active={active} preset="city" portalArgs={[10, 10, 10]} />
 						</Suspense>
 					</Canvas>
+					<ControlAnimations />
 				</Modal.Content>
 			)}
 			<Loader />
