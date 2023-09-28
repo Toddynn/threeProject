@@ -1,7 +1,7 @@
 import Autoplay from 'embla-carousel-autoplay';
 import { EmblaOptionsType, EmblaPluginType } from 'embla-carousel-react';
 import { AnimatePresence } from 'framer-motion';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { BiChevronLeft } from 'react-icons/bi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import { Modal } from '..';
@@ -43,6 +43,8 @@ export default function ModalProduct({ content, active, setActive, setShowDetail
 		}
 	};
 
+	const [isFullScreen, setIsFullScreen] = useState(false);
+
 	return (
 		<Modal.Root
 			onClick={(e: any) => e.stopPropagation()}
@@ -50,7 +52,9 @@ export default function ModalProduct({ content, active, setActive, setShowDetail
 			initial="hidden"
 			animate="visible"
 			exit="exit"
-			className=" flex h-[800px] w-[90%] items-center overflow-hidden rounded-md bg-gray-600/40 outline outline-2 outline-white/30 backdrop-blur-md"
+			className={` ${
+				isFullScreen ? 'h-full w-full' : 'h-[800px] w-[90%] rounded-md'
+			} flex  items-center overflow-hidden  bg-gray-600/40 outline outline-2 outline-white/30 backdrop-blur-md`}
 		>
 			<Modal.Content className={`${active ? 'hidden' : 'flex'} scrollStyled  flex-col  lg:flex-row`}>
 				<Modal.Content className={`flex flex-1 bg-[#565555]`}>
@@ -70,7 +74,15 @@ export default function ModalProduct({ content, active, setActive, setShowDetail
 				</Modal.Content>
 			</Modal.Content>
 			<AnimatePresence mode="wait" initial={false} onExitComplete={() => null}>
-				{content && active && <ModalPreviewGltf path={content.path} active={active} setActive={setActive} />}
+				{content && active && (
+					<ModalPreviewGltf
+						path={content.path}
+						active={active}
+						setActive={setActive}
+						isFullScreen={isFullScreen}
+						setIsFullScreen={setIsFullScreen}
+					/>
+				)}
 			</AnimatePresence>
 		</Modal.Root>
 	);
