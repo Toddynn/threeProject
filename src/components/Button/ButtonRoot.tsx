@@ -8,7 +8,7 @@ export type CombinedButtonRootProps = ButtonRootProps & MotionProps;
 
 export default function ButtonRoot({ className, children, ...rest }: CombinedButtonRootProps) {
 	return (
-		<button className={twMerge('flex px-3 py-2', className)} {...rest}>
+		<button className={twMerge('flex px-3 py-2 transition-all ease-in', className)} {...rest}>
 			{children}
 		</button>
 	);
