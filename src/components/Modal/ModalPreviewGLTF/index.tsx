@@ -50,7 +50,11 @@ export default function ModalPreviewGltf({ active, setActive, isFullScreen, setI
 					<ControlAnimations />
 					<Modal.Actions className="absolute bottom-0 p-7">
 						<Modal.Action>
-							<Button.Root className="rounded-full bg-muted-foreground p-2" onClick={toggleFullscreen}>
+							<Button.Root
+								data-active={isFullScreen}
+								className="rounded-full bg-muted p-2 hover:bg-muted-foreground hover:text-accent data-[active=true]:bg-muted-foreground data-[active=true]:text-accent"
+								onClick={toggleFullscreen}
+							>
 								<Button.Icon icon={isFullScreen ? RiFullscreenExitLine : RiFullscreenLine} size={20} />
 							</Button.Root>
 						</Modal.Action>
