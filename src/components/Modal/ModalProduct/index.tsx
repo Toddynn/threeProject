@@ -5,11 +5,11 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { BiChevronLeft } from 'react-icons/bi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import { Modal } from '..';
-import { Product } from '../../../App';
 import { DropIn } from '../../../constants/animation';
 import Carousel from '../../Carousel';
 import { Button } from '../../ShadCN/ui/button';
 import ModalPreviewGltf from '../ModalPreviewGLTF';
+import { Product } from '../../../pages/portas';
 
 export interface ModalProductProps {
 	content: Product | null;

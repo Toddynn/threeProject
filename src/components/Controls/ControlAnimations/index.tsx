@@ -1,22 +1,38 @@
+// Modify the ControlAnimations component to include animationPaused state
+import { RiDoorClosedLine, RiDoorOpenLine } from 'react-icons/ri';
 import { useAnimation } from '../../../hooks/useAnimation';
-import { Button } from '../../ShadCN/ui/button';
+import { Button } from '../../Button';
 
 export function ControlAnimations() {
-	const { animations, setAnimationIndex } = useAnimation();
+	const { animations, setAnimationIndex, animationIndex } = useAnimation();
+
 	return (
 		<>
 			{animations && (
-				<div className="fixed right-5 top-5 z-50 flex h-auto w-auto flex-col gap-3 overflow-y-auto rounded-md bg-white">
-					{animations.map((animation, index) => {
+				<div className="absolute bottom-0 left-[50%] z-50 mx-auto flex h-auto w-auto -translate-x-[50%] gap-3  overflow-y-auto rounded-md p-7 ">
+					{animations.map((_, index: number) => {
 						return (
-							<Button key={index} onClick={() => setAnimationIndex(index)}>
-								{animation}
-							</Button>
+							<Button.Root
+								key={index}
+								onClick={() => {
+									setAnimationIndex(index);
+								}}
+								data-active={animationIndex === index}
+								className="rounded-full bg-muted p-2 hover:bg-muted-foreground hover:text-accent data-[active=true]:bg-muted-foreground data-[active=true]:text-accent"
+							>
+								<Button.Icon icon={RiDoorOpenLine} size={22} />
+							</Button.Root>
 						);
 					})}
-					<Button onClick={() => setAnimationIndex(undefined)} variant={'secondary'}>
-						Parar
-					</Button>
+					<Button.Root
+						onClick={() => {
+							setAnimationIndex(undefined);
+						}}
+						data-active={animationIndex === undefined}
+						className="rounded-full bg-muted p-2 hover:bg-muted-foreground hover:text-accent data-[active=true]:bg-muted-foreground data-[active=true]:text-accent"
+					>
+						<Button.Icon icon={RiDoorClosedLine} size={22} />
+					</Button.Root>
 				</div>
 			)}
 		</>

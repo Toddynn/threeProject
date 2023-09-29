@@ -1,10 +1,11 @@
-import { createContext, ReactNode, useState } from 'react';
+// Modify your useAnimation hook to include a ref for animation control
+import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react';
 
 interface AnimationsContextData {
 	animationIndex: number | undefined;
-	setAnimationIndex: React.Dispatch<React.SetStateAction<number | undefined>>;
+	setAnimationIndex: Dispatch<SetStateAction<number | undefined>>;
 	animations: string[];
-	setAnimations: React.Dispatch<React.SetStateAction<any[]>>;
+	setAnimations: Dispatch<SetStateAction<any[]>>;
 }
 
 export const AnimationsContext = createContext<AnimationsContextData>({} as AnimationsContextData);

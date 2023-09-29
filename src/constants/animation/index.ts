@@ -38,8 +38,7 @@ export const SlideLeft = {
 		},
 	},
 	exit: {
-		x: '-100vh',
-		opacity: 0,
+		x: '-200vh',
 		transition: {
 			duration: 0.6,
 		},
