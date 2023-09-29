@@ -38,10 +38,10 @@ export function ExperienceDoor({ active, portalArgs, name, preset }: ExperienceD
 	const { distance, intensity, angle, x, y, z } = useControls({
 		intensity: { value: 37, min: 0, max: 100 },
 		distance: { value: 5, min: 0, max: 100 },
-		angle: { value: 0.42, min: 0.1, max: 1 },
+		angle: { value: 0.47, min: 0.1, max: 1 },
 		x: { value: -1.9, min: -5, max: 5 },
-		y: { value: 1.5, min: -5, max: 5 },
-		z: { value: -2, min: -5, max: 5 },
+		y: { value: 1.6, min: -5, max: 5 },
+		z: { value: -1.7, min: -5, max: 5 },
 	});
 
 	return (
