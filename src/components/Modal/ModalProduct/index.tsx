@@ -6,10 +6,10 @@ import { BiChevronLeft } from 'react-icons/bi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import { Modal } from '..';
 import { DropIn } from '../../../constants/animation';
+import { Product } from '../../../pages/portas';
 import Carousel from '../../Carousel';
 import { Button } from '../../ShadCN/ui/button';
 import ModalPreviewGltf from '../ModalPreviewGLTF';
-import { Product } from '../../../pages/portas';
 
 export interface ModalProductProps {
 	content: Product | null;
@@ -53,7 +53,7 @@ export default function ModalProduct({ content, active, setActive, setShowDetail
 			animate="visible"
 			exit="exit"
 			className={` ${
-				isFullScreen ? 'h-full w-full' : 'h-[800px] w-[90%] rounded-md'
+				isFullScreen ? 'h-full w-full' : 'h-[80%]  w-[90%] rounded-md'
 			} flex  items-center overflow-hidden  bg-gray-600/40 outline outline-2 outline-white/30 backdrop-blur-md`}
 		>
 			<Modal.Content className={`${active ? 'hidden' : 'flex'} scrollStyled  flex-col  lg:flex-row`}>
