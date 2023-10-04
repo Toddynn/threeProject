@@ -52,3 +52,40 @@
 	background-color: #585757;
 	border-radius: 20px;
 }
+
+.loaderMusic {
+	width: 4px;
+	border-radius: 4px;
+	background-color: currentColor;
+	position: relative;
+	left: 20px;
+	animation: animloaderMusic 0.3s 0.3s linear infinite alternate;
+}
+
+.loaderMusic::after,
+.loaderMusic::before {
+	content: '';
+	width: 4px;
+	border-radius: 4px;
+	background: currentColor;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 10px;
+	animation: animloaderMusic 0.3s 0.45s linear infinite alternate;
+}
+
+.loaderMusic::before {
+	left: -10px;
+	animation-delay: 0s;
+}
+
+@keyframes animloaderMusic {
+	0% {
+		height: 12px;
+	}
+
+	100% {
+		height: 4px;
+	}
+}
