@@ -5,11 +5,17 @@ import { Overlay } from '../../components/Overlay';
 export default function Portais() {
 	return (
 		<>
-			<Overlay />
-			<Canvas shadows camera={{ position: [0, 0, 5], fov: 30 }} gl={{ preserveDrawingBuffer: true }} className="fixed inset-0">
+			<Canvas
+				shadows
+				camera={{ position: [0, 0, 5], fov: 30 }}
+				gl={{ preserveDrawingBuffer: true }}
+				style={{ height: '100vh' }}
+				className="fixed inset-0"
+			>
 				<color attach="background" args={['#ececec']} />
 				<ExperiencePortals />
 			</Canvas>
+			<Overlay />
 		</>
 	);
 }
