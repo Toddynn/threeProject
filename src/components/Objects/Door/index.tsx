@@ -43,12 +43,17 @@ export default function Door({ preset = 'sunset', scale, position, rotation, ...
 			doorAnimationAction.clampWhenFinished = true;
 			doorAnimationAction.reset().fadeIn(0.5).play();
 
-			setVolumeAmbientAudio(1);
+			setTimeout(() => {
+				setVolumeAmbientAudio(1);
+			}, 1980);
+
 			doorOpeningAudio();
 			return () => {
 				doorAnimationAction.fadeOut(0.5).play();
 				doorClosingAudio();
-				setVolumeAmbientAudio(0.09);
+				setTimeout(() => {
+					setVolumeAmbientAudio(0.09);
+				}, 500);
 			};
 		}
 	}, [doorAnimations.animationIndex]);

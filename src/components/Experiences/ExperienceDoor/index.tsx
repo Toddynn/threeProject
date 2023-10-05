@@ -48,20 +48,9 @@ export function ExperienceDoor({ active, portalArgs, name, preset }: ExperienceD
 		<>
 			<spotLight ref={spotLightRef} position={[x, y, z]} distance={distance} intensity={intensity} angle={angle} />
 			<spotLight ref={secondSpotLightRef} position={[-x, y, -z]} distance={distance} intensity={intensity} angle={angle} />
-			{/* <Environment preset="sunset" ground /> */}
-			{/* <Portal
-				portalArgs={portalArgs}
-				name={name}
-				active={active}
-				texture={'textures/interior2.jpg'}
-				rotation={[0, 0, 0]}
-				position={[0, 0, 0]}
-				preset={preset}
-			>
-			</Portal> */}
+
 			<Door scale={1} preset={preset} position={[0, 0, 0]} rotation={[0, 110, 0]} />
 			<OrbitControls enablePan={false} minPolarAngle={0} maxPolarAngle={Math.PI / 2} maxDistance={22} minDistance={3} />
-			{/* <CameraControls enabled={active} ref={cameraControlsRef} makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2} maxDistance={16} /> */}
 		</>
 	);
 }
